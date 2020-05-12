@@ -18,5 +18,5 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python python_script.py
+        python ./python_script.py
         
