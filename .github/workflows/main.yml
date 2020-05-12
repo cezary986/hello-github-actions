@@ -7,11 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+      - uses: actions/setup-python@v1
+      - name: Python task
         with:
-          python-version: '3.7' # Semantic version range syntax or exact version of a Python version
-          architecture: 'x64'
-      run: python ./python_script.py"
+          python-version: '3.7'
+      run: python ./python_script.py
 
           
