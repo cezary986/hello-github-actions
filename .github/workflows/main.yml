@@ -2,9 +2,9 @@ name: A workflow for my Hello World file
 on: push
 
 jobs:
-  build:
-    name: Hello world action
+  pythonScript:
     runs-on: ubuntu-latest
+    name: Hello world action
     steps:
       - name: Python task
       - uses: actions/checkout@v2
