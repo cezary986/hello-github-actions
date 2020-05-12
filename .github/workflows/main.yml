@@ -1,4 +1,3 @@
-name: A workflow for my Hello World file
 on: push
 
 jobs:
@@ -6,11 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Hello world action
     steps:
-      - name: Python task
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
         with:
           python-version: '3.7'
+      - name: Python task
       run: python python_script.py
 
           
