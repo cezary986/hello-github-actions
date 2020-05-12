@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-python@v1
       - name: Python task
         with:
-          python-version: '3.7'
+          python-version: '3.x'
       run: python python_script.py
 
           
