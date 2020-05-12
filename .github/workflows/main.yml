@@ -11,6 +11,6 @@ jobs:
       - name: Python task
         with:
           python-version: '3.7'
-      run: python ./python_script.py
+      run: python python_script.py
 
           
