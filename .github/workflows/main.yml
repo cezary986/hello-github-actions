@@ -5,8 +5,16 @@ jobs:
   build:
     name: Hello world action
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
     steps:
-      - uses: actions/checkout@v1
-      - uses: ./action-a
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
         with:
-          MY_NAME: "Mona"
+          python-version: '3.7' # Semantic version range syntax or exact version of a Python version
+          architecture: 'x64'
+      run: python ./python_script.py"
+
+          
