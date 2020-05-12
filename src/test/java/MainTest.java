@@ -5,7 +5,11 @@ public class MainTest {
 
     @Test
     public void sampleMethod() {
-        System.out.println("run sampleMethod test");
         Assert.assertTrue( false);
+    }
+
+    @Test
+    public void samplePassingTest() {
+        Assert.assertTrue( true);
     }
 }

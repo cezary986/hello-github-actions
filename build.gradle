@@ -17,6 +17,7 @@ dependencies {
 }
 
 test {
+    testLogging.showStandardStreams = true
     useJUnit()
     maxHeapSize = '1G'
 }
