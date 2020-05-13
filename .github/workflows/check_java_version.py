@@ -63,4 +63,4 @@ if __name__ == "__main__":
   their_version = get_version_from_gradle(their_build_gradle_content)
 
   if my_version <= their_version:
-    raise Exception(f'Local version ({str(my_version)}) lower or equal than their version ({str(their_version)}). Did you forget about incrementing it?')
+    raise Exception(f'Local version ({str(my_version)}) lower or equal than their version ({str(their_version)}).')
