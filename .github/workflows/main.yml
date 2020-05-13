@@ -1,9 +1,9 @@
 name: Java project workflow
 
 on:
-  push:
-    paths:
-    - 'src/**'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   python_script:
@@ -21,7 +21,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Checking Java project version
       run: |
-        python ./.github/workflows/check_java_version.py "$(cat build.gradle)"
+        python ./.github/workflows/scripts/check_java_version.py "$(cat build.gradle)"
         
   build_and_test:
     name: Checking gradle build and running tests
