@@ -58,7 +58,7 @@ def get_build_gradle_from_branch(branch_name: str) -> str:
   response = urllib.request.urlopen(url)
   content = json.load(response)['content']
   content =  base64.b64decode(content)
-  return content
+  return content.decode("utf-8")
 
 def get_version_from_gradle(build_gradle_content: str) -> Version:
   matches = re.search("version\s*'\S+'", build_gradle_content)
@@ -71,8 +71,6 @@ if __name__ == "__main__":
   build_gradle_file = open("./build.gradle", "r")
   my_build_gradle_content = build_gradle_file.read()
   their_build_gradle_content = get_build_gradle_from_branch(REFERENCE_BRANCH_NAME)
-
-  print(their_build_gradle_content)
 
   my_version = get_version_from_gradle(my_build_gradle_content)
   their_version = get_version_from_gradle(their_build_gradle_content)
