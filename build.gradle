@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'groovy'
+
+group 'org.example'
+version '0.0.3'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+// Konfiguracja do testó
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    useJUnit()
+    maxHeapSize = '1G'
+}
+
+// Raporty z wynikami testów
+reporting.baseDir = "my-reports"
+testResultsDirName = "$buildDir/my-test-results"
+
+task showDirs {
+    doLast {
+        logger.quiet(rootDir.toPath().relativize(project.reportsDir.toPath()).toString())
+        logger.quiet(rootDir.toPath().relativize(project.testResultsDir.toPath()).toString())
+    }
+}
+
+task generateVersionProperties {
+    doLast {
+        def propertiesFile = file "$buildDir/resources/main/version.properties"
+        propertiesFile.parentFile.mkdirs()
+        def properties = new Properties()
+        System.out.println(rootProject.version.toString())
+        properties.setProperty("version", rootProject.version.toString())
+        propertiesFile.withWriter { properties.store(it, null) }
+    }
+}
+processResources.dependsOn generateVersionProperties
+
+classes {
+    dependsOn generateVersionProperties
+}
