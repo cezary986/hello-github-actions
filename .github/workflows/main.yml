@@ -23,7 +23,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Run python scripts
       run: |
-        python ./.github/workflows/python_script.py
+        var="$(cat build.gradle)"
+        python ./.github/workflows/python_script.py var
         
   build_and_test:
     name: Gradle build and test

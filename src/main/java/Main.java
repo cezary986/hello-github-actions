@@ -6,6 +6,8 @@ public class Main {
     }
 
     public static void main(String[] args){
+        VersionService versionService = new VersionService();
         System.out.println("Hello word");
+        System.out.println(versionService.getVersion());
     }
 }
