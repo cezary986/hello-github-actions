@@ -4,7 +4,7 @@ import urllib.request
 import json
 import base64
 
-REFERENCE_BRANCH_NAME = 'first-action'
+REFERENCE_BRANCH_NAME = 'master'
 GITHUB_FILES_ENDPOINT = 'https://api.github.com/repos/cezary986/hello-github-actions/contents/build.gradle?ref='
 
 class Version:
