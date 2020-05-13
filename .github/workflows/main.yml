@@ -24,7 +24,7 @@ jobs:
     - name: Run python scripts
       run: |
         var="$(cat build.gradle)"
-        python ./.github/workflows/python_script.py var
+        python ./.github/workflows/python_script.py $var
         
   build_and_test:
     name: Gradle build and test
