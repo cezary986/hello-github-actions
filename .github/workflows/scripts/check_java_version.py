@@ -1,5 +1,11 @@
 import sys
 import re
+import urllib.request
+import json
+import base64
+
+REFERENCE_BRANCH_NAME = 'master'
+GITHUB_FILES_ENDPOINT = 'https://api.github.com/repos/cezary986/hello-github-actions/contents/build.gradle?ref='
 
 class Version:
 
@@ -47,7 +53,14 @@ class Version:
     return f'{self._major}.{self._minor}.{self._patch}'
 
 
-def get_version_from_gradle(build_gradle_content):
+def get_build_gradle_from_branch(branch_name: str) -> str:
+  url = f'{GITHUB_FILES_ENDPOINT}{branch_name}'
+  response = urllib.request.urlopen(url)
+  content = json.load(response)['content']
+  content =  base64.b64decode(content)
+  return content.decode("utf-8")
+
+def get_version_from_gradle(build_gradle_content: str) -> Version:
   matches = re.search("version\s*'\S+'", build_gradle_content)
   version_line = matches.group(0)
   version_string = version_line.split("'")[1::2][0]
@@ -57,7 +70,7 @@ def get_version_from_gradle(build_gradle_content):
 if __name__ == "__main__":
   build_gradle_file = open("./build.gradle", "r")
   my_build_gradle_content = build_gradle_file.read()
-  their_build_gradle_content = sys.argv[1]
+  their_build_gradle_content = get_build_gradle_from_branch(REFERENCE_BRANCH_NAME)
 
   my_version = get_version_from_gradle(my_build_gradle_content)
   their_version = get_version_from_gradle(their_build_gradle_content)
