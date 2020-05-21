@@ -6,7 +6,7 @@ import base64
 
 REFERENCE_BRANCH_NAME = 'master'
 GRADLE_FILE_PATH = './build.gradle'
-GET_GRADLE_COMMAND = f'git show {REFERENCE_BRANCH_NAME} HEAD:{GRADLE_FILE_PATH}'
+GET_GRADLE_COMMAND = f'git show {REFERENCE_BRANCH_NAME}:{GRADLE_FILE_PATH}'
 
 class Version:
 
@@ -55,10 +55,14 @@ class Version:
 
 
 def get_build_gradle_from_branch(branch_name: str) -> str:
+  current_branch_name =  os.system('git rev-parse --abbrev-ref HEAD')
+  os.system('git fetch')
+  os.system(f'git checkout {branch_name}')
+  os.system(f'git checkout {current_branch_name}')
   return os.popen(GET_GRADLE_COMMAND).read()
 
 def get_version_from_gradle(build_gradle_content: str) -> Version:
-  matches = re.findall(r"-*\+*version\s*=*\s*'\S+'", build_gradle_content)
+  matches = re.findall(r"-*\+*version\s*=*\s*'\S+'\n", build_gradle_content)
   print(matches)
   max_version = None
   for match in matches:
@@ -73,7 +77,7 @@ def get_version_from_gradle(build_gradle_content: str) -> Version:
 if __name__ == "__main__":
   build_gradle_file = open(GRADLE_FILE_PATH, "r")
   my_build_gradle_content = build_gradle_file.read()
-  their_build_gradle_content = sys.argv[1]
+  their_build_gradle_content = get_build_gradle_from_branch(REFERENCE_BRANCH_NAME)
   my_version = get_version_from_gradle(my_build_gradle_content)
   their_version = get_version_from_gradle(their_build_gradle_content)
   if my_version <= their_version:
