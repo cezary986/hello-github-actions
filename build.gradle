@@ -5,7 +5,8 @@ plugins {
 apply plugin: 'groovy'
 
 group 'org.example'
-version '0.0.10'
+
+version '0.0.9'
 
 
 sourceCompatibility = 1.8
