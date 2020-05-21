@@ -14,15 +14,14 @@ jobs:
         python-version: [3.7]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2-beta
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
-      uses: srt32/git-actions@v0.0.3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Checking Java project version
       run: |
-        python ./.github/workflows/scripts/check_java_version.py "$(git show develop:./build.gradle)"
+        python ./.github/workflows/scripts/check_java_version.py "$(git show master:./build.gradle)"
         
   build_and_test:
     name: Checking gradle build and running tests

@@ -58,7 +58,7 @@ def get_build_gradle_from_branch(branch_name: str) -> str:
   return os.popen(GET_GRADLE_COMMAND).read()
 
 def get_version_from_gradle(build_gradle_content: str) -> Version:
-  matches = re.findall(r"-*\+*version\s*=*\s*'\S+'", build_gradle_content)
+  matches = re.findall(r"-*\+*version\s*=*\s*'\S+'\n", build_gradle_content)
   print(matches)
   max_version = None
   for match in matches:
@@ -71,6 +71,8 @@ def get_version_from_gradle(build_gradle_content: str) -> Version:
 
 
 if __name__ == "__main__":
+  print(sys.argv[0])
+  print(sys.argv[1])
   build_gradle_file = open(GRADLE_FILE_PATH, "r")
   my_build_gradle_content = build_gradle_file.read()
   their_build_gradle_content = sys.argv[1]
