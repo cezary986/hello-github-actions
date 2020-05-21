@@ -14,14 +14,14 @@ jobs:
         python-version: [3.7]
 
     steps:
-    - uses: actions/checkout@v2-beta
-    - uses: srt32/git-actions@v0.0.3
+    - uses: ctions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
     - name: Checking Java project version
       run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         python ./.github/workflows/scripts/check_java_version.py "$(git show master:./build.gradle)"
         
   build_and_test:
