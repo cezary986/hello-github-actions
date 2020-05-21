@@ -1,11 +1,12 @@
 import sys
+import os
 import re
-import urllib.request
 import json
 import base64
 
 REFERENCE_BRANCH_NAME = 'master'
-GITHUB_FILES_ENDPOINT = 'https://api.github.com/repos/cezary986/hello-github-actions/contents/build.gradle?ref='
+GRADLE_FILE_PATH = './build.gradle'
+GET_GRADLE_COMMAND = f'git show {REFERENCE_BRANCH_NAME} HEAD:{GRADLE_FILE_PATH}'
 
 class Version:
 
@@ -54,26 +55,28 @@ class Version:
 
 
 def get_build_gradle_from_branch(branch_name: str) -> str:
-  url = f'{GITHUB_FILES_ENDPOINT}{branch_name}'
-  response = urllib.request.urlopen(url)
-  content = json.load(response)['content']
-  content =  base64.b64decode(content)
-  return content.decode("utf-8")
+  return os.popen(GET_GRADLE_COMMAND).read()
 
 def get_version_from_gradle(build_gradle_content: str) -> Version:
-  matches = re.search("version\s*'\S+'", build_gradle_content)
-  version_line = matches.group(0)
-  version_string = version_line.split("'")[1::2][0]
-  return Version(version_string)
+  matches = re.findall(r"-*\+*version\s*=*\s*'\S+'\n", build_gradle_content)
+  print(matches)
+  max_version = None
+  for match in matches:
+    version_line = match
+    version_string = version_line.split("'")[1::2][0]
+    version = Version(version_string)
+    if max_version is None or version > max_version:
+      max_version = version
+  return max_version
 
 
 if __name__ == "__main__":
-  build_gradle_file = open("./build.gradle", "r")
+  build_gradle_file = open(GRADLE_FILE_PATH, "r")
   my_build_gradle_content = build_gradle_file.read()
   their_build_gradle_content = get_build_gradle_from_branch(REFERENCE_BRANCH_NAME)
-
   my_version = get_version_from_gradle(my_build_gradle_content)
   their_version = get_version_from_gradle(their_build_gradle_content)
-
   if my_version <= their_version:
-    raise Exception(f'Local version ({str(my_version)}) lower or equal than their version ({str(their_version)}).')
+    print(f'Local version ({str(my_version)}) lower or equal than their version ({str(their_version)}).')
+    exit(1)
+  exit(0) 
