@@ -71,6 +71,8 @@ def get_version_from_gradle(build_gradle_content: str) -> Version:
 
 
 if __name__ == "__main__":
+  print(sys.argv[0])
+  print(sys.argv[1])
   build_gradle_file = open(GRADLE_FILE_PATH, "r")
   my_build_gradle_content = build_gradle_file.read()
   their_build_gradle_content = sys.argv[1]

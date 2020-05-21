@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args){
         VersionService versionService = new VersionService();
-        System.out.println("Hello word4");
+        System.out.println("Hello word4ws");
         System.out.println(versionService.getVersion());
     }
 }
