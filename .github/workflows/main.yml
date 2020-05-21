@@ -22,10 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Checking Java project version
       run: |
-        git fetch
-        git checkout master
-        git fetch origin master
-        python ./.github/workflows/scripts/check_java_version.py "$(git show master:./build.gradle)"
+        python ./.github/workflows/scripts/check_java_version.py 
         
   build_and_test:
     name: Checking gradle build and running tests
